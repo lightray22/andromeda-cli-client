@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 
-### simple python script to roughly emulate the Andromeda CLI interface over HTTP ###
+### simple python script to emulate the Andromeda CLI interface over HTTP ###
+### As this is not an actual console, extra options like dry runs, 
+# changing the debug level, and changing DB config are not possible ###
 
 import os, sys, requests, json
 
-#TODO interactively get input (passwords)
-#TODO load URL from environment variable!
-#TODO load environment variables andromeda_*
-#TODO changing file name
-
 def exithelp():
-    print("usage: a2cli.py url app action [--file name] [--$param data] [--$param@ file]")
+    print("general usage:   a2cli.py url app action [--file file [name]] [--$param data] [--$param@ file]\n"
+          "get all actions: a2cli.py url server usage")
     sys.exit(1)
 
 def backend(url, app, action, post={}, files=None):
@@ -38,6 +36,13 @@ if __name__ == '__main__':
     params = { }
     files = { }
 
+    envargs = [ ]
+    for key,val in os.environ.items():
+        key = key.split('_',1)
+        if key[0] == 'andromeda' and len(key) == 2:
+            envargs.append("--"+key[1]); envargs.append(val)
+    args = envargs + args
+
     i = 0    
     while i < len(args):
 
@@ -55,7 +60,9 @@ if __name__ == '__main__':
             value = open(value,'rb').read().strip()
 
         if key == 'file':
-            name = os.path.basename(value)
+            if len(args) > i and args[i][0:2] != "--":
+                name = args[i]; i+=1
+            else: name = os.path.basename(value)
             files["file"+str(i)] = (name,open(value,'rb'))
         else: params[key] = value
 
