@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
         if len(args) > i and args[i][0:2] != "--":
             value = args[i]; i+=1
-        else: value = "null"
+        else: value = "true"
 
         if key[-1] == '@':
             key = key[:-1]
