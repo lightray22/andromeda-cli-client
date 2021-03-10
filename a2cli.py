@@ -7,7 +7,7 @@
 import os, sys, requests, json
 
 def exithelp():
-    print("general usage:   a2cli.py url app action [--file file [name]] [--$param data] [--$param@ file]\n"
+    print("general usage:   a2cli.py url app action [--$param data] [--$param@ file] [--$param% file [name]]\n"
           "get all actions: a2cli.py url server usage")
     sys.exit(1)
 
@@ -59,11 +59,12 @@ if __name__ == '__main__':
             key = key[:-1]
             value = open(value,'rb').read().strip()
 
-        if key == 'file':
+        if key[-1] == '%':
+            key = key[:-1]
             if len(args) > i and args[i][0:2] != "--":
                 name = args[i]; i+=1
             else: name = os.path.basename(value)
-            files["file"+str(i)] = (name,open(value,'rb'))
+            files[key] = (name,open(value,'rb'))
         else: params[key] = value
 
     result = backend(url, app, action, params, files)
