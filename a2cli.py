@@ -8,6 +8,7 @@ import os, sys, requests, json
 
 def exithelp():
     print("general usage:   a2cli.py url app action [--$param data] [--$param@ file] [--$param% file [name]]\n"
+          " - param@ puts the content of the file in the parameter, param% uploads the file as a file\n"
           "get all actions: a2cli.py url server usage")
     sys.exit(1)
 
