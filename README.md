@@ -17,7 +17,7 @@ Parameter syntax, attaching/uploading files and using environment variables is t
 #### Quick Example
 
 Run the script with no arguments to show basic usage.  
-Run ```./a2cli.py server usage``` to show the list of API calls.
+Run ```./a2cli.py (url) server usage``` to show the list of API calls.
 
 ## Prerequisites
 
